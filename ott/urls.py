@@ -20,5 +20,10 @@ urlpatterns = [
     path('geners-add',views.genresdd,name='lanadd'),
     path('<id>/geners-edit',views.genresdit,name='lanedit'),
     path('profile',views.profile,name='profile'),
-
+    path('creator',views.creator),
+    path('creator-profile',views.creatorprofile),
+    path('creator-videos',views.creatorvideos),
+    path('creator-videos-add',views.creatorvideosadd),
+    path('creator-orders',views.creatororders),
+    path('creator-invoice',views.creatorinvoice)
 ]

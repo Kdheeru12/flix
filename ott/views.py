@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User,auth
-from .models import viewer,Languages,Genre
+from .models import viewer,Languages,Genre,Movies
 from django.contrib import messages
+from .form import MoviesForm
 # Create your views here.
 def homepage(request):
     if request.user.is_authenticated:
@@ -66,7 +67,7 @@ def otpverify(request):
     else:
         return redirect('/')      
 def login(request):
-    return render(request,'login.html')
+    return render(request,'creator-index.html')
 def languages(request):
     if request.method == 'POST':
         lan = int(request.POST['la'])
@@ -127,4 +128,34 @@ def genresdit(request,id):
         return render(request,'admin-language-edit.html',{'lan':lan})
 def profile(request):
     return render(request,'profile.html')
-    
+def creator(request):
+    return render(request,'creator-index.html')
+def creatorprofile(request):
+    return render(request,'creator-profile.html')
+def creatorvideos(request):
+    movies = Movies.objects.filter(creator=request.user)
+    context = {
+        'movies':movies
+    }
+    return render(request,'creator-videos.html',context)
+def creatorvideosadd(request):
+    if request.method == 'POST':
+        print('hhh')
+        form = MoviesForm(request.POST,request.FILES or None)
+        print(form.is_valid())
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.creator = request.user
+            instance.save()
+        return redirect('/creator-videos')
+        
+    else:
+        form = MoviesForm()
+        context ={
+            'form':form
+        }
+        return render(request,'creator-videos-add.html',context)
+def creatororders(request):
+    return render(request,'creator-orders.html')
+def creatorinvoice(request):
+    return render(request,'creator-invoice.html')
