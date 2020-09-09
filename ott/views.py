@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User,auth
-from .models import viewer,Languages,Genre,Movies
+from .models import viewer,Languages,Genre,Movies,Crew
 from django.contrib import messages
-from .form import MoviesForm
+from .form import MoviesForm,CrewFrom
 # Create your views here.
 def homepage(request):
     if request.user.is_authenticated:
@@ -129,18 +129,33 @@ def genresdit(request,id):
 def profile(request):
     return render(request,'profile.html')
 def creator(request):
-    return render(request,'creator-index.html')
+    m = Movies.objects.all()
+    context ={
+        'm':m
+    }
+    return render(request,'creator-index.html',context)
 def creatorprofile(request):
     return render(request,'creator-profile.html')
 def creatorvideos(request):
-    movies = Movies.objects.filter(creator=request.user)
-    context = {
-        'movies':movies
-    }
-    return render(request,'creator-videos.html',context)
+    if request.method == 'POST':
+        i= request.POST['id']
+        movie = get_object_or_404(Movies,id=i)
+        if movie.draft == False:
+            movie.draft = True
+            movie.save()
+            return redirect('/creator-videos')
+        else:
+            movie.draft = False
+            movie.save()
+            return redirect('/creator-videos')  
+    else:
+        movies = Movies.objects.filter(creator=request.user)
+        context = {
+            'movies':movies
+        }
+        return render(request,'creator-videos.html',context)
 def creatorvideosadd(request):
     if request.method == 'POST':
-        print('hhh')
         form = MoviesForm(request.POST,request.FILES or None)
         print(form.is_valid())
         if form.is_valid():
@@ -159,3 +174,31 @@ def creatororders(request):
     return render(request,'creator-orders.html')
 def creatorinvoice(request):
     return render(request,'creator-invoice.html')
+def moviedetail(request,slug):
+    movie = get_object_or_404(Movies,slug=slug)
+    crew = Crew.objects.filter(movie=movie)
+    print(crew)
+    context = {
+        'movie':movie,
+        'crew':crew,
+    }
+    return render(request,'creator-videos-view.html',context)
+def addcrew(request,movie):
+    movi = get_object_or_404(Movies,slug=movie)
+    if request.method == 'POST':
+        form = CrewFrom(request.POST,request.FILES or None)
+        print(form.is_valid())
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.creator = request.user
+            instance.movie = movi
+            instance.save()
+        return redirect('/creator-videos')
+    else:
+        form = CrewFrom()
+        context = {
+            'form':form,
+            'movie':movie
+        }
+        return render(request,'add-crew.html',context)
+

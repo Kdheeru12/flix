@@ -25,5 +25,7 @@ urlpatterns = [
     path('creator-videos',views.creatorvideos),
     path('creator-videos-add',views.creatorvideosadd),
     path('creator-orders',views.creatororders),
-    path('creator-invoice',views.creatorinvoice)
+    path('creator-invoice',views.creatorinvoice),
+    path('<slug>/movie-details',views.moviedetail),
+    path('<movie>/add-crew',views.addcrew)
 ]

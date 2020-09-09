@@ -1,6 +1,5 @@
 from django import forms
-from .models import Movies
-
+from .models import Movies,Crew
 class MoviesForm(forms.ModelForm):
     class Meta:
         model = Movies
@@ -22,4 +21,18 @@ class MoviesForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class':'form-control'}),
             'language':forms.Select(attrs={'class':'form-control'}),
             'age_restrication':forms.Select(attrs={'class':'form-control'}),    
+        }
+class CrewFrom(forms.ModelForm):
+    class Meta:
+        model = Crew
+        fields = [
+            'name',
+            'photo',
+            'role',
+            'about',
+        ]
+        widgets = {
+            "name": forms.TextInput(attrs={'class':'form-control'}),
+            "role": forms.TextInput(attrs={'class':'form-control'}),
+            "about": forms.Textarea(attrs={'class':'form-control'}),
         }

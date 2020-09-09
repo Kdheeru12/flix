@@ -160,9 +160,24 @@
                                     <td><img src="/media/{{m.thumbnail_image}}"></td>							
                                     <td>Rs. {{m.price}}</td>
                                     <td>100</td>
-                                    <td>25</td>									
-                                    <td>Live</td>									
-                                    <td><a href="creator-videos-view.html">View</a>&nbsp;&nbsp;<a href="#">Suspend</a></td>									
+                                    <td>25</td>
+                                    {%if m.draft%}							
+                                    <td style="color:red" > Go Live</td>
+                                    {% else %}
+                                    <td style="color:green"> Live</td>	
+                                    {% endif %}								
+                                    <td><a href="/{{m.slug}}/movie-details">View</a>&nbsp;&nbsp;
+                                        <form action="/creator-videos" method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="id" hidden readonly value="{{m.id}}" >
+                                            {%if m.draft%}							
+                                            <button style="color:red" >REMOVE SUSPEND</button>
+                                            {% else %}
+                                            <button>suspend</button>
+                                            {% endif %}								
+                                        </form>
+                                        <a href="/{{m.slug}}/add-crew">Add Crew</a>&nbsp;&nbsp;
+                                    </td>									
                                 </tr>
                                 {% endfor %}
                             </tbody>

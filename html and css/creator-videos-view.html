@@ -31,7 +31,26 @@
         <link href="css/style.css" rel="stylesheet">
         <link href="css/helper.css" rel="stylesheet">
         
+ <!-- Bootstrap core CSS -->
+ <link href="{% static 'content/css/bootstrap.min.css' %} " rel="stylesheet">
+ <link href="{% static 'content/css/bootstrap-reset.css' %} " rel="stylesheet">
 
+ <!--Animation css-->
+ <link href="{% static 'content/css/animate.css' %}" rel="stylesheet">
+
+ <!--Icon-fonts css-->
+ <link href="{% static 'content/assets/font-awesome/css/font-awesome.css' %} " rel="stylesheet" />
+ <link href="{% static 'content/assets/ionicon/css/ionicons.min.css' %} " rel="stylesheet" />
+
+ <!--Morris Chart CSS -->
+ <link rel="stylesheet" href="{% static 'content/assets/morris/morris.css' %} ">
+
+ <!-- sweet alerts -->
+ <link href="{% static 'content/assets/sweet-alert/sweet-alert.min.css' %} " rel="stylesheet">
+
+ <!-- Custom styles for this template -->
+ <link href="{% static 'content/css/style.css' %} " rel="stylesheet">
+ <link href="{% static 'content/css/helper.css' %} " rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
         <!--[if lt IE 9]>
           <script src="js/html5shiv.js"></script>
@@ -120,7 +139,7 @@
                             <tbody>
                                 <tr class="gradeX">
                                     <td><strong>Title</td>
-									<td>Playing Guitar</td>
+									<td>{{movie.title}}</td>
 								</tr>
                                 <tr class="gradeX">
                                     <td><strong>Plot</td>
@@ -128,11 +147,11 @@
 								</tr>								
 								<tr>
                                     <td><strong>Thumbnail</td>
-									<td><img src="img/c1.jpg"></td>							
+									<td><img src="/media/{{movie.thumbnail_image}}"></td>						
 								</tr>
 								<tr>
                                     <td><strong>Banner Image</td>
-									<td><img width="320" src="img/banner-image.png"></td>							
+								<td><img width="320" src="/media/{{movie.banner_image}}"></td>							
 								</tr>
 								<tr>
                                     <td><strong>Thumbnail</td>
@@ -146,39 +165,31 @@
 								</tr>								
 								<tr>
                                     <td><strong>Price</td>
-									<td>Rs. 100</td>							
+									<td>{{movie.price}}</td>							
 								</tr>
 								<tr>
                                     <td><strong>Language</td>
-									<td>English</td>							
+									<td>{{movie.language}}</td>							
 								</tr>
 								<tr>
                                     <td><strong>Genre</td>
-									<td>Drama, Action</td>							
+									<td>{{movie.genre}}</td>							
 								</tr>
 								<tr>
                                     <td><strong>Age Restrictions</td>
-									<td>7+</td>							
+									<td>{{movie.age_restrication}}</td>							
 								</tr>		
 								<tr>
                                     <td><strong>Parental Guidance</td>
-									<td>Violence, Language</td>							
+									<td>{{movie.parental_guidance}}</td>							
 								</tr>
 								<tr>
                                     <td><strong>Crew</td>
 									<td>
-									
-									<div class="crew_row"><span><img src="img/avatar-2.jpg"></span><span>John Smith (Director)</span></div>
-									
-									<div class="crew_row"><span><img src="img/avatar-3.jpg"></span><span>Willam Joe (Producer)</span></div>
-									
-									<div class="crew_row"><span><img src="img/avatar-4.jpg"></span><span>King George (Writer)</span></div>
-									
-									<div class="crew_row"><span><img src="img/avatar-5.jpg"></span><span>Nathan Astel (Music Director)</span></div>
-									
-									<div class="crew_row"><span><img src="img/avatar-6.jpg"></span><span>Luarie King (Writer)</span></div>
-									
-									</td>							
+                                        {% for c in crew %}
+									<div class="crew_row"><span><img src="/media/{{c.photo}}"></span><span>{{c.name}} ({{c.role}})</span></div>
+                                        {% endfor %}
+									</td>	 						
 								</tr>								
                             </tbody>
                         </table>
@@ -248,7 +259,50 @@
         <script src="assets/jquery-datatables-editable/jquery.dataTables.js"></script> 
         <script src="assets/datatables/dataTables.bootstrap.js"></script>
         <script src="assets/jquery-datatables-editable/datatables.editable.init.js"></script>
+<!-- js placed at the end of the document so the pages load faster -->
+<script src="{% static 'content/js/jquery.js' %} "></script>
+<script src="{% static 'content/js/bootstrap.min.js' %} "></script>
+<script src="{% static 'content/js/modernizr.min.js' %} "></script>
+<script src="{% static 'content/js/pace.min.js' %} "></script>
+<script src="{% static 'content/js/wow.min.js' %} "></script>
+<script src="{% static 'content/js/jquery.scrollTo.min.js' %} "></script>
+<script src="{% static 'content/js/jquery.nicescroll.js' %} " type="text/javascript"></script>
+<script src="{% static 'content/assets/chat/moment-2.2.1.js' %} "></script>
 
+<!-- Counter-up -->
+<script src="{% static 'content/js/waypoints.min.js' %} " type="text/javascript"></script>
+<script src="{% static 'content/js/jquery.counterup.min.js' %} " type="text/javascript"></script>
+
+<!-- EASY PIE CHART JS -->
+<script src="{% static 'content/assets/easypie-chart/easypiechart.min.js' %} "></script>
+<script src="{% static 'content/assets/easypie-chart/jquery.easypiechart.min.js' %}"></script>
+<script src="{% static 'content/assets/easypie-chart/example.js' %}"></script>
+
+
+<!--C3 Chart-->
+<script src="{% static 'content/assets/c3-chart/d3.v3.min.js' %}"></script>
+<script src="{% static 'content/assets/c3-chart/c3.js' %}"></script>
+
+<!--Morris Chart-->
+<script src="{% static 'content/assets/morris/morris.min.js' %}"></script>
+<script src="{% static 'content/assets/morris/raphael.min.js' %}"></script>
+
+<!-- sparkline --> 
+<script src="{% static 'content/assets/sparkline-chart/jquery.sparkline.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'content/assets/sparkline-chart/chart-sparkline.js' %}" type="text/javascript"></script> 
+
+<!-- sweet alerts -->
+<script src="{% static 'content/assets/sweet-alert/sweet-alert.min.js' %}"></script>
+<script src="{% static 'content/assets/sweet-alert/sweet-alert.init.js' %}"></script>
+
+<script src="{% static 'content/js/jquery.app.js' %}"></script>
+<!-- Chat -->
+<script src="{% static 'content/js/jquery.chat.js' %}"></script>
+<!-- Dashboard -->
+<script src="{% static 'content/js/jquery.dashboard.js' %}"></script>
+
+<!-- Todo -->
+<script src="{% static 'content/js/jquery.todo.js' %}"></script>
     
 
     </body>

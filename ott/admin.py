@@ -5,7 +5,7 @@ admin.site.register(viewer)
 admin.site.register(Languages)
 admin.site.register(Movies)
 admin.site.register(Age)
-admin.site.register(crew)
+admin.site.register(Crew)
 admin.site.register(Parental_Guidance)
 admin.site.register(Genre)
 
