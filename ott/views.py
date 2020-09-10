@@ -67,7 +67,7 @@ def otpverify(request):
     else:
         return redirect('/')      
 def login(request):
-    return render(request,'creator-index.html')
+    return render(request,'login.html')
 def languages(request):
     if request.method == 'POST':
         lan = int(request.POST['la'])
@@ -129,7 +129,8 @@ def genresdit(request,id):
 def profile(request):
     return render(request,'profile.html')
 def creator(request):
-    m = Movies.objects.all()
+    m = Movies.objects.all().count
+    print(m)
     context ={
         'm':m
     }
@@ -201,4 +202,52 @@ def addcrew(request,movie):
             'movie':movie
         }
         return render(request,'add-crew.html',context)
+def admincontentcreator(request):
+    return render(request,'admin-contentcreator.html')
+def adminviewers(request):
+    if request.method =='POST':
+        i = request.POST['id']
+        user = get_object_or_404(User,id=i)
+        if user.is_active == True:
+            user.is_active = False
+            user.save()
+            return redirect('/admin-viewers')
+        else:
+            user.is_active = True
+            user.save()
+            return redirect('/admin-viewers')
+    else:
+        v = viewer.objects.all()
+        context = {
+            'viewer':v
+        }
+        return render(request,'admin-viewer.html',context)
+def admingenres(request):
+    return render(request,'admin-genre.html')
+def adminlan(request):
+    return render(request,'admin-language.html')
+def adminage(request):
+    return render(request,'admn-agerestriction.html')
+def adminguidance(request):
+    return render(request,'admin-guidance.html')
+def adminvideos(request):
+    if request.method == 'POST':
+        i= request.POST['id']
+        movie = get_object_or_404(Movies,id=i)
+        if movie.draft == False:
+            movie.draft = True
+            movie.save()
+            return redirect('/admin-videos')
+        else:
+            movie.draft = False
+            movie.save()
+            return redirect('/admin-videos')  
+    else:
+        movies = Movies.objects.all()
+        context = {
+            'movies':movies
+        }
+        return render(request,'admin-videos.html',context)
+    return render(request,'admin-videos.html')
+
 

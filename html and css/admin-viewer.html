@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,7 +9,7 @@
 
         <link rel="shortcut icon" href="img/favicon_1.ico">
 
-        <title>Hulchul - Languages</title>    
+        <title>Hulchul - Viewers</title>    
 
 
         <!-- Bootstrap core CSS -->
@@ -82,9 +81,9 @@
                     <li><a href="admin-index.html"><i class="ion-home"></i> <span class="nav-label">Dashboard</span></a></li>
                     <li><a href="/admin-videos"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Videos</span></a></li>
                     <li><a href="admin-contentcreator"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Content Creators</span></a></li>					
-                    <li><a href="/admin-viewers"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Viewers</span></a></li>					
+                    <li class="active"><a href="/admin-viewers"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Viewers</span></a></li>					
                     <li><a href="admin-orders.html"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Orders</span></a></li>					
-                    <li class="active"><a href="/admin-languages"><i class="ion-eye"></i> <span class="nav-label">Languages </span></a></li>
+                    <li><a href="/admin-languages"><i class="ion-eye"></i> <span class="nav-label">Languages </span></a></li>
                     <li><a href="/admin-genre"><i class="ion-eye"></i> <span class="nav-label">Genres </span></a></li>					
                     <li><a href="/admin-age"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Age Restrictions</span></a></li>
                     <li><a href="/admin-guidance"><i class="ion-ios7-paper-outline"></i> <span class="nav-label">Parental Guidance</span></a></li>
@@ -135,35 +134,42 @@
 
             <div class="wraper container-fluid">
                 <div class="page-title"> 
-                    <h3 class="title">Languages</h3> 
+                    <h3 class="title">Viewers</h3> 
                 </div>
 
 
                 <div class="panel">
                             
                     <div class="panel-body">
-                        <!-- 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="m-b-30">
-                                    <a href="admin-language-add.html"><button class="btn btn-primary waves-effect waves-light">Add a New Language <i class="fa fa-plus"></i></button></a>
-                                </div>
-                            </div>
-                        </div>
-                        -->
+
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Language</th>
+                                    <th>Name</th>
+                                    <th>Viewing History</th>
+                                    <th>Amount Spent</th>
+                                    <th>Action</th>									
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for v in viewer %}
                                 <tr class="gradeX">
-                                    <td>English</td>
+                                    <td>{{v.user.first_name}}</td>
+                                    <td>10 <a href="admin-viewer-videos.html">View</a></td>
+                                    <td>Rs. 1000 <a href="admin-contentcreator-orders.html">View Invoices</a></td>
+                                    <td><a href="admin-contentcreator-profile.html">View Profile</a>&nbsp;&nbsp;
+                                        <form action="/admin-viewers" method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="id" hidden readonly value="{{v.user.id}}" >
+                                            {%if v.user.is_active %}							
+                                            <button>suspend</button>
+                                            {% else %}
+                                            <button style="color:red" >REMOVE SUSPEND</button>
+                                            {% endif %}	
+                                            {{v.user.is_active}}							
+                                        </form>									
                                 </tr>
-                                <tr class="gradeX">
-                                    <td>Telugu</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -232,50 +238,50 @@
         <script src="assets/jquery-datatables-editable/jquery.dataTables.js"></script> 
         <script src="assets/datatables/dataTables.bootstrap.js"></script>
         <script src="assets/jquery-datatables-editable/datatables.editable.init.js"></script>
- <!-- js placed at the end of the document so the pages load faster -->
- <script src="{% static 'content/js/jquery.js' %} "></script>
- <script src="{% static 'content/js/bootstrap.min.js' %} "></script>
- <script src="{% static 'content/js/modernizr.min.js' %} "></script>
- <script src="{% static 'content/js/pace.min.js' %} "></script>
- <script src="{% static 'content/js/wow.min.js' %} "></script>
- <script src="{% static 'content/js/jquery.scrollTo.min.js' %} "></script>
- <script src="{% static 'content/js/jquery.nicescroll.js' %} " type="text/javascript"></script>
- <script src="{% static 'content/assets/chat/moment-2.2.1.js' %} "></script>
+        <!-- js placed at the end of the document so the pages load faster -->
+        <script src="{% static 'content/js/jquery.js' %} "></script>
+        <script src="{% static 'content/js/bootstrap.min.js' %} "></script>
+        <script src="{% static 'content/js/modernizr.min.js' %} "></script>
+        <script src="{% static 'content/js/pace.min.js' %} "></script>
+        <script src="{% static 'content/js/wow.min.js' %} "></script>
+        <script src="{% static 'content/js/jquery.scrollTo.min.js' %} "></script>
+        <script src="{% static 'content/js/jquery.nicescroll.js' %} " type="text/javascript"></script>
+        <script src="{% static 'content/assets/chat/moment-2.2.1.js' %} "></script>
 
- <!-- Counter-up -->
- <script src="{% static 'content/js/waypoints.min.js' %} " type="text/javascript"></script>
- <script src="{% static 'content/js/jquery.counterup.min.js' %} " type="text/javascript"></script>
+        <!-- Counter-up -->
+        <script src="{% static 'content/js/waypoints.min.js' %} " type="text/javascript"></script>
+        <script src="{% static 'content/js/jquery.counterup.min.js' %} " type="text/javascript"></script>
 
- <!-- EASY PIE CHART JS -->
- <script src="{% static 'content/assets/easypie-chart/easypiechart.min.js' %} "></script>
- <script src="{% static 'content/assets/easypie-chart/jquery.easypiechart.min.js' %}"></script>
- <script src="{% static 'content/assets/easypie-chart/example.js' %}"></script>
+        <!-- EASY PIE CHART JS -->
+        <script src="{% static 'content/assets/easypie-chart/easypiechart.min.js' %} "></script>
+        <script src="{% static 'content/assets/easypie-chart/jquery.easypiechart.min.js' %}"></script>
+        <script src="{% static 'content/assets/easypie-chart/example.js' %}"></script>
 
 
- <!--C3 Chart-->
- <script src="{% static 'content/assets/c3-chart/d3.v3.min.js' %}"></script>
- <script src="{% static 'content/assets/c3-chart/c3.js' %}"></script>
+        <!--C3 Chart-->
+        <script src="{% static 'content/assets/c3-chart/d3.v3.min.js' %}"></script>
+        <script src="{% static 'content/assets/c3-chart/c3.js' %}"></script>
 
- <!--Morris Chart-->
- <script src="{% static 'content/assets/morris/morris.min.js' %}"></script>
- <script src="{% static 'content/assets/morris/raphael.min.js' %}"></script>
+        <!--Morris Chart-->
+        <script src="{% static 'content/assets/morris/morris.min.js' %}"></script>
+        <script src="{% static 'content/assets/morris/raphael.min.js' %}"></script>
 
- <!-- sparkline --> 
- <script src="{% static 'content/assets/sparkline-chart/jquery.sparkline.min.js' %}" type="text/javascript"></script>
- <script src="{% static 'content/assets/sparkline-chart/chart-sparkline.js' %}" type="text/javascript"></script> 
+        <!-- sparkline --> 
+        <script src="{% static 'content/assets/sparkline-chart/jquery.sparkline.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'content/assets/sparkline-chart/chart-sparkline.js' %}" type="text/javascript"></script> 
 
- <!-- sweet alerts -->
- <script src="{% static 'content/assets/sweet-alert/sweet-alert.min.js' %}"></script>
- <script src="{% static 'content/assets/sweet-alert/sweet-alert.init.js' %}"></script>
+        <!-- sweet alerts -->
+        <script src="{% static 'content/assets/sweet-alert/sweet-alert.min.js' %}"></script>
+        <script src="{% static 'content/assets/sweet-alert/sweet-alert.init.js' %}"></script>
 
- <script src="{% static 'content/js/jquery.app.js' %}"></script>
- <!-- Chat -->
- <script src="{% static 'content/js/jquery.chat.js' %}"></script>
- <!-- Dashboard -->
- <script src="{% static 'content/js/jquery.dashboard.js' %}"></script>
+        <script src="{% static 'content/js/jquery.app.js' %}"></script>
+        <!-- Chat -->
+        <script src="{% static 'content/js/jquery.chat.js' %}"></script>
+        <!-- Dashboard -->
+        <script src="{% static 'content/js/jquery.dashboard.js' %}"></script>
 
- <!-- Todo -->
- <script src="{% static 'content/js/jquery.todo.js' %}"></script>
+        <!-- Todo -->
+        <script src="{% static 'content/js/jquery.todo.js' %}"></script>
 
     
 

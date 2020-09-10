@@ -27,5 +27,13 @@ urlpatterns = [
     path('creator-orders',views.creatororders),
     path('creator-invoice',views.creatorinvoice),
     path('<slug>/movie-details',views.moviedetail),
-    path('<movie>/add-crew',views.addcrew)
+    path('<movie>/add-crew',views.addcrew),
+    path('admin-contentcreator',views.admincontentcreator),
+    path('admin-viewers',views.adminviewers),
+    path('admin-languages',views.adminlan),
+    path('admin-genre',views.admingenres),
+    path('admin-age',views.adminage),
+    path('admin-guidance',views.adminguidance),
+    path('admin-videos',views.adminvideos),
+    path('accounts/inactive/',views.homepage)
 ]
