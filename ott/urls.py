@@ -35,5 +35,12 @@ urlpatterns = [
     path('admin-age',views.adminage),
     path('admin-guidance',views.adminguidance),
     path('admin-videos',views.adminvideos),
-    path('accounts/inactive/',views.homepage)
+    path('accounts/inactive/',views.homepage),
+    path('categories',views.categories),
+    path('coming_soon',views.comingsoon),
+    path('favoriesl',views.favo),
+    path('newarrival',views.newarrivals),
+    path('order_history',views.orders),
+    path('towatch',views.towatch),
+    path('trending',views.trending)
 ]

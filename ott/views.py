@@ -13,7 +13,7 @@ def homepage(request):
             
         except:
             return redirect('/verification')
-        return render(request,'index.html')
+        return render(request,'recommended_videos.html')
     else:
         return redirect('/login')
 def signup(request):
@@ -249,5 +249,20 @@ def adminvideos(request):
         }
         return render(request,'admin-videos.html',context)
     return render(request,'admin-videos.html')
+def trending(request):
+    return render(request,'trending_videos.html')
+def towatch(request):
+    return render(request,'towatch_videos.html')
+def orders(request):
+    return render(request,'order_history.html')
+def newarrivals(request):
+    return render(request,'newarrival_videos.html')
+def favo(request):
+    return render(request,'favories_videos.html')
+def comingsoon(request):
+    return render(request,'comingsoon_videos.html')
+def categories(request):
+    return render(request,'categories.html')
+
 
 
