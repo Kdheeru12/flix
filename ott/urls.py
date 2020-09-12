@@ -42,5 +42,6 @@ urlpatterns = [
     path('newarrival',views.newarrivals),
     path('order_history',views.orders),
     path('towatch',views.towatch),
-    path('trending',views.trending)
+    path('trending',views.trending),
+    path('<slug>/view_video',views.videoview)
 ]

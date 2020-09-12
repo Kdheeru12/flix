@@ -13,7 +13,11 @@ def homepage(request):
             
         except:
             return redirect('/verification')
-        return render(request,'recommended_videos.html')
+        movies = Movies.objects.all()
+        context = {
+            'movies':movies
+        }
+        return render(request,'recommended_videos.html',context)
     else:
         return redirect('/login')
 def signup(request):
@@ -263,6 +267,14 @@ def comingsoon(request):
     return render(request,'comingsoon_videos.html')
 def categories(request):
     return render(request,'categories.html')
+def videoview(request,slug):
+    movie = get_object_or_404(Movies,slug=slug)
+    crew = Crew.objects.filter(movie=movie)
+    context = {
+        'movie':movie,
+        'crew':crew,
+    }
+    return render(request,'view_video.html',context)
 
 
 

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE HTML>
 <html>
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -14,13 +15,13 @@
 
 
 
-<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' media="all" />
+<link href="{% static 'asset/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' media="all" />
 
-<link href="css/dashboard.css" rel="stylesheet">
+<link href="{% static 'asset/css/dashboard.css' %}" rel="stylesheet">
 
-<link href="css/style.css" rel='stylesheet' type='text/css' media="all" />
+<link href="{% static 'asset/css/style.css' %}" rel='stylesheet' type='text/css' media="all" />
 
-<link href="css/responsive.css" rel='stylesheet' type='text/css' media="all" />
+<link href="{% static 'asset/css/responsive.css' %} " rel='stylesheet' type='text/css' media="all" />
 
 
 
@@ -43,7 +44,7 @@
 				<div class="drop-navigation drop-navigation">
 					<div class="logo">
 				<a href="index.html">
-				<img src="images/logo.png">
+				<img src="{% static 'asset/images/logo.png' %}">
 				</a>
 				</div>
 				
@@ -51,50 +52,50 @@
 				  
 									  
 <li>
-<a href="recommended_videos.html">
-<img src="images/recomonded_icon.png">
+<a href="/">
+<img src="{% static 'asset/images/recomonded_icon.png' %} ">
 Recommended
 </a></li>
 
 
 <li>
-<a href="trending_videos.html">
-<img src="images/trending_icon.png">
+<a href="/trending">
+<img src="{% static 'asset/images/trending_icon.png' %}">
 Trending
 </a>
 </li>
 
 <li>
-<a href="newarrival_videos.html">
-<img src="images/new_arrival_icon.png">
+<a href="/newarrival">
+<img src="{% static 'asset/images/new_arrival_icon.png' %} ">
 New Arrivals
 </a>
 </li>
 
 <li>
-<a href="comingsoon_videos.html">
-<img src="images/comingsoon_icon.png">
+<a href="/coming_soon">
+<img src="{% static 'asset/images/comingsoon_icon.png' %}">
 Coming Soon
 </a>
 </li>
 
 <li>
-<a href="categories.html">
-<img src="images/categories_icon.png">
+<a href="/categories">
+<img src="{% static 'asset/images/categories_icon.png' %} ">
 Categories
 </a>
 </li>
 
 <li>
-<a href="favories_videos.html">
-<img src="images/favorite_icon.png">
+<a href="/favoriesl">
+<img src="{% static 'asset/images/favorite_icon.png' %} ">
 Favorites
 </a>
 </li>
 
 <li>
-<a href="towatch_videos.html">
-<img src="images/watching_icon.png">
+<a href="/towatch">
+<img src="{% static 'asset/images/watching_icon.png' %} ">
 To Watch
 </a>
 </li>
@@ -144,17 +145,23 @@ To Watch
 
 </div>
 
-<iframe  src="https://www.youtube.com/embed/bpQECKvDEhg" allowfullscreen></iframe>
+<iframe  src="/media/{{movie.banner_image}}" allowfullscreen>
+	<img src="/media/{{movie.banner_image}}" alt="">
+</iframe>
 </div>
 
 <div class="song-info">
-<h3>Etiam molestie nisl eget consequat pharetra <span>Rs.100</span></h3>
+<h3>{{movie.title}} <span>{{movie.price}}</span></h3>
 
 <div>
 
 <div class="share share_left">
 <ul>
-<li class="laungage">Telugu</li>	
+<li class="laungage">{{movie.language}}</li>
+<li class="laungage">{{movie.genre}}</li>
+<li class="laungage">{{movie.age_restrication}}+</li>
+<li class="laungage">{{movie.parental_guidance}}</li>	
+
 <li class="bookmark">Add to Bookmark</li>	
 <li class="like">3500 Likes</li>
 </ul>
@@ -201,57 +208,6 @@ Director
 </table>
 </div>
 
-<div class="col-md-6  p-0">
-<table>
-<tbody>
-<tr>
-<td>
-<img src="images/user-img.png">
-</td>
-<td>Sanjay Dutt</td>
-<td>
-Producer
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div class="col-md-6  p-0">
-<table>
-<tbody>
-<tr>
-<td>
-<img src="images/user-img.png">
-</td>
-<td>Sanjay Dutt</td>
-<td>
-Writer
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div class="col-md-6  p-0">
-<table>
-<tbody>
-<tr>
-<td>
-<img src="images/user-img.png">
-</td>
-<td>Sanjay Dutt</td>
-<td>
-Music Director
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-
-
-
 </div>
 
 						
@@ -268,7 +224,7 @@ Music Director
 							<div class="load_more">	
 								<ul id="myList">
 									<li style="display: list-item;">
-									<p>Nullam fringilla sagittis tortor ut rhoncus. Nam vel ultricies erat, vel sodales leo. Maecenas pellentesque, est suscipit laoreet tincidunt, ipsum tortor vestibulum leo, ac dignissim diam velit id tellus. Morbi luctus velit quis semper egestas. Nam condimentum sem eget ex iaculis bibendum. Nam tortor felis, commodo faucibus sollicitudin ac, luctus a turpis. Donec congue pretium nisl, sed fringilla tellus tempus in.</p>
+									<p> {{movie.plot}} </p>
 									</li>
 									
 																
@@ -305,7 +261,33 @@ Music Director
    <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>						
 	<script src="js/responsiveslides.min.js"></script>
+	<script src="{% static 'asset/js/jquery-1.11.1.min.js' %}"></script>
+    <script src="{% static 'asset/js/bootstrap.min.js' %}"></script>						
+	<script src="{% static 'asset/js/responsiveslides.min.js' %}"></script>
 	
+	
+						 <script>
+							// You can also use "$(window).load(function() {"
+							$(function () {
+							  // Slideshow 4
+							  $("#slider3").responsiveSlides({
+								auto: true,
+								pager: false,
+								nav: true,
+								speed: 500,
+								namespace: "callbacks",
+								before: function () {
+								  $('.events').append("<li>before event fired.</li>");
+								},
+								after: function () {
+								  $('.events').append("<li>after event fired.</li>");
+								}
+							  });
+						
+							});
+						  </script>		
+
+
 	
 						 <script>
 							// You can also use "$(window).load(function() {"
