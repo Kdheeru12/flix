@@ -13,7 +13,7 @@ def homepage(request):
             
         except:
             return redirect('/verification')
-        movies = Movies.objects.all()
+        movies = Movies.objects.filter(draft=False)
         context = {
             'movies':movies
         }
@@ -275,6 +275,17 @@ def videoview(request,slug):
         'crew':crew,
     }
     return render(request,'view_video.html',context)
+def adminstrator(request):
+    viewerss = viewer.objects.all().count
+    videos = Movies.objects.all().count
+    creator = User.objects.filter(is_staff=True).count
+    context = {
+        'viewerss':viewerss,
+        'videos':videos,
+        'creator':creator,
+    }
+    return render(request,'admin-index.html',context)
+
 
 
 

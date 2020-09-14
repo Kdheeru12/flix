@@ -151,7 +151,7 @@ To Watch
 </div>
 
 <div class="song-info">
-<h3>{{movie.title}} <span>{{movie.price}}</span></h3>
+<h3>{{movie.title}} <span>₹{{movie.price}}</span></h3>
 
 <div>
 
@@ -191,22 +191,23 @@ To Watch
 						
 <div class="crew_box">
 
-
+{% for c in crew %}
 <div class="col-md-6  p-0">
 <table>
 <tbody>
 <tr>
 <td>
-<img src="images/user-img.png">
+<img src="/media/{{c.photo}}">
 </td>
-<td>Sanjay Dutt</td>
+<td>{{c.name}}</td>
 <td>
-Director
+{{c.role}}
 </td>
 </tr>
 </tbody>
 </table>
 </div>
+{% endfor  %}
 
 </div>
 

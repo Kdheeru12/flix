@@ -28,6 +28,7 @@ urlpatterns = [
     path('creator-invoice',views.creatorinvoice),
     path('<slug>/movie-details',views.moviedetail),
     path('<movie>/add-crew',views.addcrew),
+    path('adminstrator',views.adminstrator),
     path('admin-contentcreator',views.admincontentcreator),
     path('admin-viewers',views.adminviewers),
     path('admin-languages',views.adminlan),
