@@ -1,9 +1,10 @@
 from django.conf import settings
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404,HttpResponse
 from django.contrib.auth.models import User,auth
 from .models import viewer,Languages,Genre,Movies,Crew
 from django.contrib import messages
 from .form import MoviesForm,CrewFrom
+from django.http import HttpResponse,JsonResponse
 # Create your views here.
 def homepage(request):
     if request.user.is_authenticated:
@@ -273,6 +274,7 @@ def videoview(request,slug):
     context = {
         'movie':movie,
         'crew':crew,
+        'likes':movie.total_likes()
     }
     return render(request,'view_video.html',context)
 def adminstrator(request):
@@ -287,5 +289,35 @@ def adminstrator(request):
     return render(request,'admin-index.html',context)
 
 
+def likes(request):
+    user = request.user
+    if request.method == 'POST':
+        pk = request.POST.get('post_pk')
+        post_obj = Movies.objects.get(pk=pk)
+        post = get_object_or_404(Movies,pk=pk)
+        if user in post_obj.likes.all():
+            post_obj.likes.remove(user)
+            post.save()
+        else:
+            post_obj.likes.add(user)
+            post.save()
+    return HttpResponse()
+def post_serialized_view(request,slug):
+    data = list(Movies.objects.filter(slug=slug).values())
+    post =get_object_or_404(Movies,slug=slug)
+    return JsonResponse(data,safe=False)
 
+def bookmark(request):
+    user = request.user
+    if request.method == 'POST':
+        pk = request.POST.get('post_pk')
+        post_obj = Movies.objects.get(pk=pk)
+        post = get_object_or_404(Movies,pk=pk)
+        if user in post_obj.bookmarks.all():
+            post_obj.bookmarks.remove(user)
+            post.save()
+        else:
+            post_obj.bookmarks.add(user)
+            post.save()
+    return HttpResponse()
 

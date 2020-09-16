@@ -14,7 +14,7 @@
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 
-
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
 <link href="{% static 'asset/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' media="all" />
 
 <link href="{% static 'asset/css/dashboard.css' %}" rel="stylesheet">
@@ -162,11 +162,140 @@ To Watch
 <li class="laungage">{{movie.age_restrication}}+</li>
 <li class="laungage">{{movie.parental_guidance}}</li>	
 
-<li class="bookmark">Add to Bookmark</li>	
-<li class="like">3500 Likes</li>
+<li class="bookmark">
+	<form action="/bookmarks" method="POST" class='dd' id="{{movie.id}}">
+		{% csrf_token %}
+
+		<input type="hidden" name="post_pk" id="post_pk" value="{{movie.pk}}" >
+		<button style="color: black;" type="submit" class="btn btn--primary bookmark-btn{{movie.id}}"> 
+			{% if request.user in movie.bookmarks.all %}
+			remove bookmark
+			{% else %}
+			bookmark
+			{% endif %}
+		</button>
+	</form>
+</li>	
+<li class="like">
+	<form action="/likes" method="POST" class='ddd' id="{{movie.id}}">
+		{% csrf_token %}
+
+		<input type="hidden" name="post_pk" id="post_pk" value="{{movie.pk}}" >
+		<button style="color: black;" type="submit" class="btn btn--primary like-btn{{movie.id}}"> 
+			{% if request.user in movie.likes.all %}
+			UnLike 
+			{% else %}
+			Like
+			{% endif %}
+		</button>
+	</form>
+	<div class="count">
+		{{likes}} Likes
+	</div>
+</li>
 </ul>
 </div>
 
+
+
+
+<script>          
+	$(document).ready(function(){
+		$('.ddd').submit(function(e){
+			e.preventDefault()
+			const post_id = $(this).attr('id')
+			const LikeText = $(`.like-btn${post_id}`).text()
+			const trim = $.trim(LikeText)
+			const url =  $('.ddd').attr('action')
+			const count = $(`.count`).text()
+			const trm = $.trim(count)
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data:{
+					'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+					'post_pk':post_id,   
+				},
+				success: function(){
+					$.ajax({
+						type:'GET',
+						url:'/serialized/{{movie.slug}}',
+						success:function(response){
+							$.each(response,function(index,element)
+							{
+
+								if(post_id==element.id){
+									if(trim =='Like') {
+										$(`.like-btn${post_id}`).html('UnLike')
+								} else if(trim =='UnLike'){
+									$(`.like-btn${post_id}`).html('Like')
+								} else{
+									console.log('oops')
+								}
+							}
+							})
+							
+						}
+					})
+					location.reload();
+				},
+				error:function(error){
+					console.log('error',error)
+				}
+			})                         
+
+		})
+	})
+</script>
+
+<script>          
+	$(document).ready(function(){
+		$('.dd').submit(function(e){
+			e.preventDefault()
+			const post_id = $(this).attr('id')
+			const LikeText = $(`.bookmark-btn${post_id}`).text()
+			const trim = $.trim(LikeText)
+			const url =  $('.dd').attr('action')
+			const count = $(`.counts`).text()
+			const trm = $.trim(count)
+			$.ajax({
+				type: 'POST',
+				url: url,
+				data:{
+					'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+					'post_pk':post_id,   
+				},
+				success: function(){
+					$.ajax({
+						type:'GET',
+						url:'/serialized/{{movie.slug}}',
+						success:function(response){
+							$.each(response,function(index,element)
+							{
+
+								if(post_id==element.id){
+									if(trim =='bookmark') {
+										$(`.bookmark-btn${post_id}`).html('remove bookmark')
+								} else if(trim =='remove bookmark'){
+									$(`.bookmark-btn${post_id}`).html('bookmark')
+								} else{
+									console.log('oops')
+								}
+							}
+							})
+							
+						}
+					})
+					location.reload();
+				},
+				error:function(error){
+					console.log('error',error)
+				}
+			})                         
+
+		})
+	})
+</script>
 
 
 

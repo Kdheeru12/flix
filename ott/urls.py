@@ -44,5 +44,9 @@ urlpatterns = [
     path('order_history',views.orders),
     path('towatch',views.towatch),
     path('trending',views.trending),
-    path('<slug>/view_video',views.videoview)
+    path('likes',views.likes,name='likes'),
+    path('bookmarks',views.bookmark,name='bookmarks'),
+    path('serialized/<slug>',views.post_serialized_view,name='serialized'),
+    path('<slug>/view_video',views.videoview),
+    
 ]

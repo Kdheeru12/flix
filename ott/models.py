@@ -45,6 +45,8 @@ class Movies(models.Model):
     banner_image = models.ImageField(blank=True,null=True)
     upload_video = models.FileField()
     price = models.FloatField()
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="likes", blank=True)
+    bookmarks = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name="bookmarks",blank=True)
     language = models.ForeignKey(Languages,on_delete=models.SET_NULL,blank=True,null=True)
     genre = MultiSelectField(choices=MY_Genre,blank=True,null=True)
     age_restrication = models.ForeignKey(Age,on_delete=models.SET_NULL,blank=True,null=True)
@@ -52,6 +54,8 @@ class Movies(models.Model):
     draft = models.BooleanField(default=False)
     def __str__(self):
         return self.title
+    def total_likes(self):
+        return self.likes.count()
 def create_slug(instance,new_slug=None):
     slug = slugify(instance.title)
     if new_slug is not None:
