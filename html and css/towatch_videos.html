@@ -168,7 +168,7 @@ To Watch
 						</div>
 						
 						{% for m in movies %}
-						
+						{%  if request.user in m.bookmarks.all %}
 						<div class="col-md-3 resent-grid recommended-grid">
 							<a href="">
 							<div class="resent-grid-img recommended-grid-img">
@@ -194,7 +194,9 @@ To Watch
 							</div>
 						</div>
 					</a>
+					{% endif %}
 						{% endfor %}
+						
 												
 						<div class="clearfix"> </div>
 					</div>

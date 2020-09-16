@@ -257,7 +257,19 @@ def adminvideos(request):
 def trending(request):
     return render(request,'trending_videos.html')
 def towatch(request):
-    return render(request,'towatch_videos.html')
+    if request.user.is_authenticated:
+        try:
+            viewe = get_object_or_404(viewer,user=request.user)
+            print(viewe) 
+        except:
+            return redirect('/verification')
+        movies = Movies.objects.filter(draft=False)
+        context = {
+            'movies':movies
+        }
+        return render(request,'towatch_videos.html',context)
+    else:
+        return redirect('/login')
 def orders(request):
     return render(request,'order_history.html')
 def newarrivals(request):
