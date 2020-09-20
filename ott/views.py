@@ -7,20 +7,12 @@ from .form import MoviesForm,CrewFrom
 from django.http import HttpResponse,JsonResponse
 # Create your views here.
 def homepage(request):
-    if request.user.is_authenticated:
-        try:
-            viewe = get_object_or_404(viewer,user=request.user)
-            print(viewe)
-            
-        except:
-            return redirect('/verification')
-        movies = Movies.objects.filter(draft=False)
-        context = {
-            'movies':movies
-        }
-        return render(request,'recommended_videos.html',context)
-    else:
-        return redirect('/login')
+    movies = Movies.objects.filter(draft=False)
+    context = {
+        'movies':movies
+    }
+    return render(request,'recommended_videos.html',context)
+
 def signup(request):
     return render(request,'register.html')
 def verification(request):
@@ -281,14 +273,23 @@ def comingsoon(request):
 def categories(request):
     return render(request,'categories.html')
 def videoview(request,slug):
-    movie = get_object_or_404(Movies,slug=slug)
-    crew = Crew.objects.filter(movie=movie)
-    context = {
-        'movie':movie,
-        'crew':crew,
-        'likes':movie.total_likes()
-    }
-    return render(request,'view_video.html',context)
+    if request.user.is_authenticated:
+        try:
+            viewe = get_object_or_404(viewer,user=request.user)
+            print(viewe) 
+        except:
+            return redirect('/verification')
+        movie = get_object_or_404(Movies,slug=slug)
+        crew = Crew.objects.filter(movie=movie)
+        context = {
+            'movie':movie,
+            'crew':crew,
+            'likes':movie.total_likes()
+        }
+        return render(request,'view_video.html',context)
+    else:
+        return redirect('/login')
+    
 def adminstrator(request):
     viewerss = viewer.objects.all().count
     videos = Movies.objects.all().count
