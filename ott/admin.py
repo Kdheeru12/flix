@@ -9,4 +9,5 @@ admin.site.register(Age)
 admin.site.register(Crew)
 admin.site.register(Parental_Guidance)
 admin.site.register(Genre)
+admin.site.register(Banner_images)
 

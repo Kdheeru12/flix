@@ -1,18 +1,23 @@
 from django.conf import settings
 from django.shortcuts import render, redirect,get_object_or_404,HttpResponse
 from django.contrib.auth.models import User,auth
-from .models import viewer,Languages,Genre,Movies,Crew
+from .models import viewer,Languages,Genre,Movies,Crew,Banner_images
 from django.contrib import messages
-from .form import MoviesForm,CrewFrom
+from .form import MoviesForm,CrewFrom,Banner_imagesForm
 from django.http import HttpResponse,JsonResponse
+from django.utils import timezone
 # Create your views here.
 def homepage(request):
-    movies = Movies.objects.filter(draft=False)
+    movies = Movies.objects.filter(draft=False)[:4]
+    newarrival = Movies.objects.filter(draft=False).order_by('-date')[:4]
+    b = get_object_or_404(Banner_images,id=1)
     context = {
-        'movies':movies
+        'movies':movies,
+        'newarrival':newarrival,
+        'b':b,
     }
-    return render(request,'recommended_videos.html',context)
-
+    #return render(request,'recommended_videos.html',context)
+    return render(request,'index.html',context)
 def signup(request):
     return render(request,'register.html')
 def verification(request):
@@ -333,4 +338,19 @@ def bookmark(request):
             post_obj.bookmarks.add(user)
             post.save()
     return HttpResponse()
-
+def banner(request):
+    if request.method == 'POST':
+        instance = get_object_or_404(Banner_images,id=1)
+        form = Banner_imagesForm(request.POST,request.FILES or None,instance=instance)
+        print(form.is_valid())
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+        return redirect('/')        
+    else:
+        instance = get_object_or_404(Banner_images,id=1)
+        form = Banner_imagesForm(instance=instance)
+        context ={
+            'form':form
+        }
+        return render(request,'banner.html',context)

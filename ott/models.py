@@ -52,6 +52,7 @@ class Movies(models.Model):
     age_restrication = models.ForeignKey(Age,on_delete=models.SET_NULL,blank=True,null=True)
     parental_guidance = MultiSelectField(choices=Parental,blank=True,null=True)
     draft = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.title
     def total_likes(self):
@@ -77,4 +78,10 @@ class Crew(models.Model):
     photo = models.ImageField(blank=True,null=True)
     role = models.CharField(max_length=300,blank=True,null=True)
     about = models.TextField(blank=True,null=True)
-    
+class Banner_images(models.Model):
+    banner_image1 = models.ImageField(blank=True,null=True)
+    banner_image1_link = models.CharField(max_length=3000)
+    banner_image2 = models.ImageField(blank=True,null=True)
+    banner_image2_link = models.CharField(max_length=3000)
+    banner_image3 = models.ImageField(blank=True,null=True)
+    banner_image3_link = models.CharField(max_length=3000)
