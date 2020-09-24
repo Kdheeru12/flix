@@ -1564,21 +1564,5 @@
             1
         ]
     }
-},
-{
-    "model": "ott.viewer",
-    "pk": 1,
-    "fields": {
-        "user": 2,
-        "mobile": 9381132562
-    }
-},
-{
-    "model": "ott.viewer",
-    "pk": 2,
-    "fields": {
-        "user": 1,
-        "mobile": 9381132562
-    }
 }
 ]

@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save
 class viewer(models.Model):
     user = models.OneToOneField(User,null=True,on_delete=models.CASCADE)
-    mobile = models.IntegerField(blank=True,null=True)
+    mobile = models.BigIntegerField()
 class Languages(models.Model):
     language=models.CharField(max_length=100,unique=True)
     def __str__(self):
