@@ -6,6 +6,7 @@ from django.contrib import messages
 from .form import MoviesForm,CrewFrom,Banner_imagesForm
 from django.http import HttpResponse,JsonResponse
 from django.utils import timezone
+from django.db.models import Q
 # Create your views here.
 def homepage(request):
     movies = Movies.objects.filter(draft=False)[:4]
@@ -354,3 +355,10 @@ def banner(request):
             'form':form
         }
         return render(request,'banner.html',context)
+def search(request,slug):
+    movies = Movies.objects.filter(Q(genre__icontains=slug),draft=False)
+    print(movies)
+    context = {
+        'movies':movies,
+    }
+    return render(request,'recommended_videos.html',context)

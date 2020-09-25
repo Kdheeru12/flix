@@ -49,4 +49,5 @@ urlpatterns = [
     path('serialized/<slug>',views.post_serialized_view,name='serialized'),
     path('<slug>/view_video',views.videoview),
     path('admin-banner',views.banner),
+    path('search_query=<slug>',views.search)
 ]
