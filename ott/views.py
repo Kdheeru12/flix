@@ -7,6 +7,8 @@ from .form import MoviesForm,CrewFrom,Banner_imagesForm
 from django.http import HttpResponse,JsonResponse
 from django.utils import timezone
 from django.db.models import Q
+from hitcount.views import HitCountDetailView,Hit
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def homepage(request):
     movies = Movies.objects.filter(draft=False)[:4]
@@ -253,7 +255,11 @@ def adminvideos(request):
         return render(request,'admin-videos.html',context)
     return render(request,'admin-videos.html')
 def trending(request):
-    return render(request,'trending_videos.html')
+    movies = Movies.objects.filter(draft=False).order_by('-hit_count_generic__hits')
+    context = {
+        'movies':movies,
+    }
+    return render(request,'trending_videos.html',context)
 def towatch(request):
     if request.user.is_authenticated:
         try:
@@ -271,30 +277,40 @@ def towatch(request):
 def orders(request):
     return render(request,'order_history.html')
 def newarrivals(request):
-    return render(request,'newarrival_videos.html')
+    movies = Movies.objects.filter(draft=False).order_by('-date')
+    context = {
+        'movies':movies,
+    }
+    return render(request,'newarrival_videos.html',context)
 def favo(request):
     return render(request,'favories_videos.html')
 def comingsoon(request):
     return render(request,'comingsoon_videos.html')
 def categories(request):
     return render(request,'categories.html')
-def videoview(request,slug):
-    if request.user.is_authenticated:
-        try:
-            viewe = get_object_or_404(viewer,user=request.user)
-            print(viewe) 
-        except:
-            return redirect('/verification')
-        movie = get_object_or_404(Movies,slug=slug)
-        crew = Crew.objects.filter(movie=movie)
-        context = {
-            'movie':movie,
-            'crew':crew,
-            'likes':movie.total_likes()
-        }
-        return render(request,'view_video.html',context)
-    else:
-        return redirect('/login')
+
+class PostDetailView(HitCountDetailView):
+    model = Movies
+    template_name = 'view_video.html'
+    context_object_name = 'movie'
+    slug_field = 'slug'
+# set to True to
+    count_hit = True
+
+    """
+    movie = get_object_or_404(Movies,slug=slug)
+    crew = Crew.objects.filter(movie=movie)
+    
+    context = {
+        'movie':movie,
+        'crew':crew,
+        'likes':movie.total_likes()
+    }
+    return render(request,'view_video.html',context)
+    """
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        return context   
     
 def adminstrator(request):
     viewerss = viewer.objects.all().count
@@ -362,3 +378,22 @@ def search(request,slug):
         'movies':movies,
     }
     return render(request,'recommended_videos.html',context)
+"""
+def videoview(request,slug):
+    if request.user.is_authenticated:
+        try:
+            viewe = get_object_or_404(viewer,user=request.user)
+            print(viewe) 
+        except:
+            return redirect('/verification')
+        movie = get_object_or_404(Movies,slug=slug)
+        crew = Crew.objects.filter(movie=movie)
+        context = {
+            'movie':movie,
+            'crew':crew,
+            'likes':movie.total_likes()
+        }
+        return render(request,'view_video.html',context)
+    else:
+        return redirect('/login')
+"""

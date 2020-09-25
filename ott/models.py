@@ -5,6 +5,8 @@ from django.conf import settings
 from multiselectfield import MultiSelectField
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 class viewer(models.Model):
     user = models.OneToOneField(User,null=True,on_delete=models.CASCADE)
     mobile = models.BigIntegerField()
@@ -53,6 +55,8 @@ class Movies(models.Model):
     parental_guidance = MultiSelectField(choices=Parental,blank=True,null=True)
     draft = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
+     related_query_name='hit_count_generic_relation')
     def __str__(self):
         return self.title
     def total_likes(self):

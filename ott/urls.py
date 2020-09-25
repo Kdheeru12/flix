@@ -4,7 +4,7 @@ from .import views
 from django.conf.urls import url, include
 from django.conf import settings
 from django.contrib.auth import views as auth_views
-
+from ott.views import PostDetailView
 
 
 urlpatterns = [
@@ -47,7 +47,8 @@ urlpatterns = [
     path('likes',views.likes,name='likes'),
     path('bookmarks',views.bookmark,name='bookmarks'),
     path('serialized/<slug>',views.post_serialized_view,name='serialized'),
-    path('<slug>/view_video',views.videoview),
+    #path('<slug>/view_video',views.videoview),
     path('admin-banner',views.banner),
-    path('search_query=<slug>',views.search)
+    path('search_query=<slug>',views.search),
+    path('<slug:slug>/view_video', PostDetailView.as_view(), name='detail'),
 ]
