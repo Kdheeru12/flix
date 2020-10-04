@@ -4,6 +4,7 @@ class MoviesForm(forms.ModelForm):
     class Meta:
         model = Movies
         fields = [
+            'comming_soon',
             'title',
             'plot',
             'thumbnail_image',
@@ -14,6 +15,7 @@ class MoviesForm(forms.ModelForm):
             'genre',
             'age_restrication',
             'parental_guidance',
+            
         ]
         widgets = {
             "title": forms.TextInput(attrs={'class':'form-control'}),

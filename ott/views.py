@@ -11,7 +11,7 @@ from hitcount.views import HitCountDetailView,Hit
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 def homepage(request):
-    movies = Movies.objects.filter(draft=False)[:4]
+    movies = Movies.objects.filter(draft=False,comming_soon=False)[:4]
     newarrival = Movies.objects.filter(draft=False).order_by('-date')[:4]
     b = get_object_or_404(Banner_images,id=1)
     context = {
@@ -255,7 +255,7 @@ def adminvideos(request):
         return render(request,'admin-videos.html',context)
     return render(request,'admin-videos.html')
 def trending(request):
-    movies = Movies.objects.filter(draft=False).order_by('-hit_count_generic__hits')
+    movies = Movies.objects.filter(draft=False,comming_soon=False).order_by('-hit_count_generic__hits')
     context = {
         'movies':movies,
     }
@@ -267,7 +267,7 @@ def towatch(request):
             print(viewe) 
         except:
             return redirect('/verification')
-        movies = Movies.objects.filter(draft=False)
+        movies = Movies.objects.filter(draft=False,comming_soon=False)
         context = {
             'movies':movies
         }
@@ -277,7 +277,7 @@ def towatch(request):
 def orders(request):
     return render(request,'order_history.html')
 def newarrivals(request):
-    movies = Movies.objects.filter(draft=False).order_by('-date')
+    movies = Movies.objects.filter(draft=False,comming_soon=False).order_by('-date')
     context = {
         'movies':movies,
     }
@@ -285,7 +285,11 @@ def newarrivals(request):
 def favo(request):
     return render(request,'favories_videos.html')
 def comingsoon(request):
-    return render(request,'comingsoon_videos.html')
+    movies = Movies.objects.filter(draft=False,comming_soon=True).order_by('-date')
+    context = {
+        'movies':movies,
+    }
+    return render(request,'comingsoon_videos.html',context)
 def categories(request):
     return render(request,'categories.html')
 
@@ -372,12 +376,13 @@ def banner(request):
         }
         return render(request,'banner.html',context)
 def search(request,slug):
-    movies = Movies.objects.filter(Q(genre__icontains=slug),draft=False)
+    movies = Movies.objects.filter(Q(genre__icontains=slug),draft=False,comming_soon=False)
     print(movies)
     context = {
         'movies':movies,
     }
     return render(request,'recommended_videos.html',context)
+
 """
 def videoview(request,slug):
     if request.user.is_authenticated:

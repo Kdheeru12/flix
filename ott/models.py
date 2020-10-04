@@ -57,6 +57,7 @@ class Movies(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',
      related_query_name='hit_count_generic_relation')
+    comming_soon = models.BooleanField(default=False)
     def __str__(self):
         return self.title
     def total_likes(self):
